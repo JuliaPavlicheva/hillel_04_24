@@ -4,7 +4,7 @@ echo "Hello! Please, enter a random number\n";
 $value = intval(trim(fgets(STDIN)));
 //$value = 5;
 
-//if / else
+// if / else
 if ($value === 1) {
     $result = ("green\n");
 } elseif ($value === 2) {
@@ -21,7 +21,7 @@ if ($value === 1) {
     $result = ("white\n");
 }
 
-//switch
+// switch
 switch ($value) {
     case 1:
         $result = "green\n";
@@ -45,7 +45,7 @@ switch ($value) {
         $result = "white\n";
 }
 
-//match
+// match
 $result = match ($value) {
     1 => "green\n",
     2 => "red\n",
