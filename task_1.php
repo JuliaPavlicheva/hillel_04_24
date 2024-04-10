@@ -33,3 +33,4 @@ var_dump(strval($bool_false) == boolval($int_zero)); //true
 
 
 
+
