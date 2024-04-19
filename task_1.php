@@ -7,12 +7,13 @@ function show_message(int $message): void
 }
 
 $i = 1;
-$factorial = 1;
 
 //while ($i <= 10) {
 //    show_message($i);
 //    $i++;
 //}
+
+$factorial = 1;
 
 //while ($i <= 5) {
 //    $factorial *= $i;

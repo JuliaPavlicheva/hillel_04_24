@@ -38,9 +38,9 @@ foreach ($new_array as $el)
     }
 }
 
-//show_message($sum);
-//show_message($product);
-//show_message($amount_of_5);
+show_message($sum);
+show_message($product);
+show_message($amount_of_5);
 
 foreach ($new_array as $el)
 {
