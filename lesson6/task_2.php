@@ -7,10 +7,14 @@ function show_message(int $message): void
 }
 function generator(int $max_number): Generator
 {
+    $prev_number = 0;
     $current_number = 1;
 
-    for($prev_number = 0; $current_number < $max_number; $additional_number = $current_number, $current_number += $prev_number, $prev_number = $additional_number) {
+    while ($current_number < $max_number) {
         yield $current_number;
+        $additional_number = $current_number;
+        $current_number += $prev_number;
+        $prev_number = $additional_number;
     }
 }
 
