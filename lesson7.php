@@ -14,13 +14,7 @@ if(0 !== $lines_amount) {
     }
 
     show_message("All lines were added successfully!\nCheck them below:\n");
-
-    $content = file('log.txt');
-    $last_content = array_slice($content, -$lines_amount);
-    //print_r($last_content);
-    foreach ($last_content as $line) {
-        show_message($line);
-    }
+    show_message(file_reader('log.txt', $lines_amount));
 } else {
     show_message("Nothing to add! Try again :)\n");
 }
