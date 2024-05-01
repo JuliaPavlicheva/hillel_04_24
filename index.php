@@ -1,20 +1,17 @@
 <?php
 
-require_once __DIR__ . '/BankAccount.php';
+require_once __DIR__ . '/Text.php';
+require_once __DIR__ . '/UpperText.php';
 
 try {
-    $bank_account = new BankAccount('dghDF3784', 1000);
-//    $bank_account->set_id("1");
-//    $bank_account->set_balance(5);
-//    var_dump($bank_account->get_id());
-//    var_dump($bank_account->get_balance());
-//    $bank_account->deposit(100);
-//    $bank_account->withdraw(10000);
+    $new_text = new Text('some text');
+    $new_upper_text = new UpperText('some text');
 
-    var_dump($bank_account);
+    var_dump($new_text->print_text());
+    var_dump($new_upper_text->print_text());
 } catch (Exception $exception) {
-    echo $exception->getMessage() . PHP_EOL;
+//    echo $exception->getMessage() . PHP_EOL;
 } finally {
-    echo 'Finally!' . PHP_EOL;
+//    echo 'Finally!' . PHP_EOL;
 }
 
