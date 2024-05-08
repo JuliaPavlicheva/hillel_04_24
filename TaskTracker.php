@@ -5,33 +5,23 @@ class TaskTracker
 {
     private string $file;
 
-    public function __construct(string $file)
-    {
-        $this->file = $file;
-    }
+    private array $tasks = [];
 
     /**
      * @throws Exception
      */
-    public function validationPath(string $file): void
+    public function __construct(string $file)
     {
         if (!file_exists($file)) {
             throw new Exception("Invalid file path!");
         }
+        $this->file = $file;
+        $this->getAllTasks();
     }
 
-    /**
-     * @throws Exception
-     */
-    public function getAllTasks(): array
+    public function getAllTasks(): void
     {
-        $this->validationPath($this->file);
         $result = [];
-
-        if (filesize($this->file) === 0) {
-            return $result;
-        }
-
         $tasks = file($this->file);
         foreach ($tasks as $task) {
             $task_item = explode('|', trim($task));
@@ -43,33 +33,29 @@ class TaskTracker
             ];
         }
 
-        return $result;
+        $this->tasks = $result;
     }
 
-    /**
-     * @throws Exception
-     */
+    public function updateFile(array $updated_content): int|false
+    {
+        return file_put_contents($this->file, implode("\n", $updated_content));
+    }
+
     public function addTask(string $task_name,
                              string $priority,
-                             int $id = 0,
                              TaskStatus $task_status = TaskStatus::INCOMPLETE
     ): int|false
     {
-        $tasks = $this->getAllTasks();
-        if(count($tasks) !== 0) {
-            $id = end($tasks)["ID"];
-        }
-
-        $task = ++$id . '|' . $task_name . '|' . $priority . '|' . $task_status->value . "\n";
+        $task = uniqid() . '|' . $task_name . '|' . $priority . '|' . $task_status->value . "\n";
         return file_put_contents($this->file, $task, FILE_APPEND);
     }
 
     /**
      * @throws Exception
      */
-    public function searchId(array $tasks, string $task_id): bool
+    public function searchId(string $task_id): bool
     {
-        if (in_array($task_id, array_column($tasks, 'ID'), true)) {
+        if (in_array($task_id, array_column($this->tasks, 'ID'), true)) {
             return true;
         }
 
@@ -81,29 +67,23 @@ class TaskTracker
      */
     public function deleteTask(string $task_id): int|false
     {
-        $tasks = $this->getAllTasks();
-        $this->searchId($this->getAllTasks(), $task_id);
+        $this->searchId($task_id);
 
         $updated_tasks = [];
-        foreach ($tasks as $task) {
+        foreach ($this->tasks as $task) {
             if ($task["ID"] !== $task_id) {
                 $updated_tasks[] = implode('|', $task);
             }
         }
 
-        return file_put_contents($this->file, implode("\n", $updated_tasks));
+        return($this->updateFile($updated_tasks));
     }
 
-    /**
-     * @throws Exception
-     */
     public function getTasks(TaskStatus $task_status = TaskStatus::INCOMPLETE): array
     {
-        $to_sort = $this->getAllTasks();
-
         $incompleteTasks = [];
         $completedTasks = [];
-        foreach ($to_sort as $task) {
+        foreach ($this->tasks as $task) {
             if ($task['Status'] === $task_status->value) {
                 $incompleteTasks[] = $task;
             } else {
@@ -120,11 +100,9 @@ class TaskTracker
      */
     public function completeTask(string $task_id, TaskStatus $task_status = TaskStatus::COMPLETED): int|false
     {
-        $tasks = $this->getAllTasks();
-        $this->searchId($this->getAllTasks(), $task_id);
-
+        $this->searchId($task_id);
         $updated_tasks = [];
-        foreach ($tasks as $task) {
+        foreach ($this->tasks as $task) {
             if ($task["ID"] === $task_id) {
                 if($task["Status"] === $task_status->value) {
                     throw new Exception("The task is already completed!");
@@ -135,6 +113,6 @@ class TaskTracker
             $updated_tasks[] = implode('|', $task);
         }
 
-        return file_put_contents($this->file, implode("\n", $updated_tasks));
+        return($this->updateFile($updated_tasks));
     }
 }

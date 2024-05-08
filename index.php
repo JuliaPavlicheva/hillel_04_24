@@ -12,13 +12,13 @@ try {
 //    $addTask = $tasks->addTask("Task name", "1-Low");
 //    $printer->addTaskResult($addTask);
 
-//    $deleteTask = $tasks->deleteTask("7");
-//    $printer->deleteTaskResult($deleteTask, "7");
+//    $deleteTask = $tasks->deleteTask("663bdc42c306f");
+//    $printer->deleteTaskResult($deleteTask, "663bdc42c306f");
 
-//    $allTasks = $tasks->getTasks();
-//    $printer->getTasksResult($allTasks);
+    $allTasks = $tasks->getTasks();
+    $printer->getTasksResult($allTasks);
 
-//    $completeTask = $tasks->completeTask("0");
+//    $completeTask = $tasks->completeTask("663bd6a98a700");
 //    $printer->completeTaskResult($completeTask);
 
 } catch (Exception $exception) {
