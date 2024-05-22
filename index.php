@@ -33,7 +33,7 @@ AND `email` LIKE '%gmail.com'";
 
 //    UPDATE
     $updateSql = "UPDATE `users` SET `deleted_at` = CURRENT_TIMESTAMP WHERE `id` = 36";
-    $stmt = $database->prepare($updateSql);
+//    $stmt = $database->prepare($updateSql);
 
     $stmt->execute();
     $result = $stmt->fetchAll();
