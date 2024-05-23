@@ -5,38 +5,31 @@ try {
     $database = new PDO($dsn, 'root', 'password');
 
 //  INSERT
-    $insertSql = "INSERT INTO `users`(`name`, `email`, `age`, `gender`, `password`) VALUES 
+    $result = $database->exec("INSERT INTO `users`(`name`, `email`, `age`, `gender`, `password`) VALUES 
         ('Helen', 'Helen@gmail.com', 19, 'female', 'passHelen'),
-        ('Max', 'Max@dot.com', 60, 'male', 'passMax')";
-//    $stmt = $database->prepare($insertSql);
+        ('Max', 'Max@dot.com', 60, 'male', 'passMax')");
 
 //    SELECT ALL
-    $selectSql = "SELECT `name`, `email`, `age` FROM `users`";
-//    $stmt = $database->prepare($selectSql);
+    $stmt = $database->query("SELECT `name`, `email`, `age` FROM `users`");
 
 //    SELECT AGE
-    $selectAge = "SELECT `name`, `email`, `age` FROM `users` WHERE `age` < 20";
-//    $stmt = $database->prepare($selectConditionAge);
+    $stmt = $database->query("SELECT `name`, `email`, `age` FROM `users` WHERE `age` < 20");
 
 //    SELECT EMAIL - GMAIL, GENDER - MALE
-    $selectMaleGmail = "SELECT `name`, `email`, `age`, `gender` FROM `users` WHERE `gender` = 'male'
-AND `email` LIKE '%gmail.com'";
-//    $stmt = $database->prepare($selectMaleGmail);
+    $stmt = $database->query("SELECT `name`, `email`, `age`, `gender` FROM `users` WHERE `gender` = 'male'
+AND `email` LIKE '%gmail.com'");
 
 //    SELECT FEMALE CREATED_AT DESC
-    $selectFemaleDesc = "SELECT `name`, `gender` FROM `users` WHERE `gender` = 'female' ORDER BY `created_at` DESC";
-//    $stmt = $database->prepare($selectFemaleDesc);
+    $stmt = $database->query("SELECT `name`, `gender` FROM `users` WHERE `gender` = 'female' 
+                                     ORDER BY `created_at` DESC");
 
 //    DELETE
-    $deleteSql = "DELETE FROM `users` WHERE `email` = 'testdd@gmail'";
-//    $stmt = $database->prepare($deleteSql);
+    $stmt = $database->exec("DELETE FROM `users` WHERE `email` = 'testdd@gmail'");
 
 //    UPDATE
-    $updateSql = "UPDATE `users` SET `deleted_at` = CURRENT_TIMESTAMP WHERE `id` = 36";
-//    $stmt = $database->prepare($updateSql);
+    $stmt = $database->exec("UPDATE `users` SET `deleted_at` = CURRENT_TIMESTAMP WHERE `id` = 36");
 
-    $stmt->execute();
-    $result = $stmt->fetchAll();
+//    $result = $stmt->fetchAll();
     echo "<pre>";
     print_r($result);
     echo "<pre>";
